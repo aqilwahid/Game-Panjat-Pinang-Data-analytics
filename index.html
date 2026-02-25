@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panjat Pinang Data Analytics</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- SCREEN: SPLASH HOME -->
+    <div id="screen-home" class="screen active">
+        <div class="home-content box-shadow-premium">
+            <h1>🎋 Panjat Pinang <br><span class="highlight">Data Analytics</span></h1>
+            <p>Uji pemahamanmu tentang 4 Level Analitik Data (Deskriptif, Diagnostik, Prediktif, Preskriptif) dalam perlombaan mencapai puncak!</p>
+            <div class="home-buttons">
+                <button class="btn btn-secondary" onclick="showScreen('screen-edu')">📚 Belajar Dulu</button>
+                <button class="btn btn-primary" onclick="startGame()">🎮 Langsung Main</button>
+            </div>
+            <div class="creator">Dibuat untuk Kelas Big Data Analysis</div>
+        </div>
+    </div>
+
+    <!-- SCREEN: EDUCATION -->
+    <div id="screen-edu" class="screen">
+        <div class="edu-content box-shadow-premium">
+            <h2>Materi Singkat: 4 Level Analitik 📊</h2>
+            <div class="cards-container">
+                <div class="edu-card descriptive">
+                    <h3>1. Deskriptif</h3>
+                    <p><strong>Fokus:</strong> Apa yang terjadi?</p>
+                    <p class="desc">Meringkas data historis untuk melihat fakta atau kondisi saat ini. (Contoh: Laporan penjualan bulan lalu).</p>
+                </div>
+                <div class="edu-card diagnostic">
+                    <h3>2. Diagnostik</h3>
+                    <p><strong>Fokus:</strong> Mengapa terjadi?</p>
+                    <p class="desc">Menganalisis korelasi dan penyebab dari suatu kejadian. (Contoh: Menghubungkan cuaca panas dengan tingginya penjualan es krim).</p>
+                </div>
+                <div class="edu-card predictive">
+                    <h3>3. Prediktif</h3>
+                    <p><strong>Fokus:</strong> Apa yang akan terjadi?</p>
+                    <p class="desc">Menggunakan machine learning atau statistik untuk meramal masa depan berdasarkan pola masa lalu. (Contoh: Prediksi cuaca besok, prediksi churn).</p>
+                </div>
+                <div class="edu-card prescriptive">
+                    <h3>4. Preskriptif</h3>
+                    <p><strong>Fokus:</strong> Apa yang harus dilakukan?</p>
+                    <p class="desc">Memberikan rekomendasi keputusan terbaik atau optimasi dari berbagai pilihan tindakan. (Contoh: Mesin rekomendasi rute terpendek Google Maps).</p>
+                </div>
+            </div>
+            <button class="btn btn-primary btn-large mt-4" onclick="startGame()">Siap Main! 🚀</button>
+        </div>
+    </div>
+
+    <!-- SCREEN: GAME AREA -->
+    <div id="screen-game" class="screen">
+        <div class="game-container">
+            <!-- Left Side: Visual Arena -->
+            <div class="arena-side">
+                <div class="arena-background">
+                    <div class="clouds"></div>
+                    <div class="ground"></div>
+                    
+                    <!-- Tiang -->
+                    <div class="pole">
+                        <!-- Hadiah (Puncak) -->
+                        <div class="prizes">
+                            <div class="prize tv">📺</div>
+                            <div class="prize bike">🚲</div>
+                            <div class="prize trophy">🏆</div>
+                        </div>
+                        
+                        <!-- Karakter -->
+                        <div id="character" class="character" style="bottom: 0%;">
+                            <div class="char-body">🧑‍💻</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="progress-info box-shadow-premium">
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                    <div class="stats">
+                        <span>Tinggi: <span id="height-text">0</span>%</span>
+                        <span>Level: <span id="level-badge" class="badge">Mudah</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Quiz Panel -->
+            <div class="quiz-side box-shadow-premium">
+                <div class="quiz-header">
+                    <h3>Soal #<span id="question-number">1</span></h3>
+                </div>
+                <div id="question-container" class="question-container">
+                    <!-- Teks pertanyaan atau gambar akan disuntik dari script.js -->
+                </div>
+                <div id="options-container" class="options-container">
+                    <!-- Tombol pilihan (A, B, C, D) akan di-generate di sini -->
+                </div>
+                <div id="feedback-toast" class="feedback-toast hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN: RESULT -->
+    <div id="screen-result" class="screen">
+        <div class="result-content box-shadow-premium">
+            <h1 id="result-title">Selamat! 🎉</h1>
+            <div id="result-message" class="result-message">Kamu berhasil mencapai puncak!</div>
+            <div class="final-score">Skor Akhir: <span id="final-score-text">100</span>%</div>
+            <button class="btn btn-primary mt-4" onclick="showScreen('screen-home')">🏠 Main Lagi</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
