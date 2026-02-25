@@ -1,22 +1,43 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panjat Pinang Data Analytics</title>
+    <title>Panjat Pinang Data Analytics - Multiplayer</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
+
 <body>
+
+    <!-- AUDIO ELEMENTS -->
+    <audio id="bgm-audio" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="correct-audio">
+        <source src="https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg" type="audio/ogg">
+    </audio>
+    <audio id="wrong-audio">
+        <source src="https://actions.google.com/sounds/v1/alarms/buzzer_alarm.ogg" type="audio/ogg">
+    </audio>
+    <audio id="win-audio">
+        <source src="https://actions.google.com/sounds/v1/crowds/crowd_cheer_with_whistles.ogg" type="audio/ogg">
+    </audio>
+
 
     <!-- SCREEN: SPLASH HOME -->
     <div id="screen-home" class="screen active">
         <div class="home-content box-shadow-premium">
-            <h1>🎋 Panjat Pinang <br><span class="highlight">Data Analytics</span></h1>
-            <p>Uji pemahamanmu tentang 4 Level Analitik Data (Deskriptif, Diagnostik, Prediktif, Preskriptif) dalam perlombaan mencapai puncak!</p>
+            <button id="btn-audio-toggle" class="btn btn-circular" onclick="toggleBGM()"
+                title="Nyalakan/Matikan Musik">🔊</button>
+            <h1>🎋 Panjat Pinang <br><span class="highlight">Data Analytics</span><br><small>Versi Multiplayer Lokal
+                    👯‍♂️</small></h1>
+            <p>Adu tangkas dan pemahaman tentang 4 Level Analitik Data (Deskriptif, Diagnostik, Prediktif, Preskriptif)
+                bersama temanmu secara live di 1 layar!</p>
             <div class="home-buttons">
                 <button class="btn btn-secondary" onclick="showScreen('screen-edu')">📚 Belajar Dulu</button>
-                <button class="btn btn-primary" onclick="startGame()">🎮 Langsung Main</button>
+                <button class="btn btn-primary" onclick="showScreen('screen-name-input')">🎮 Main Sekarang</button>
             </div>
             <div class="creator">Dibuat untuk Kelas Big Data Analysis</div>
         </div>
@@ -30,90 +51,152 @@
                 <div class="edu-card descriptive">
                     <h3>1. Deskriptif</h3>
                     <p><strong>Fokus:</strong> Apa yang terjadi?</p>
-                    <p class="desc">Meringkas data historis untuk melihat fakta atau kondisi saat ini. (Contoh: Laporan penjualan bulan lalu).</p>
+                    <p class="desc">Meringkas data historis untuk melihat fakta atau kondisi saat ini. (Contoh: Laporan
+                        penjualan bulan lalu).</p>
                 </div>
                 <div class="edu-card diagnostic">
                     <h3>2. Diagnostik</h3>
                     <p><strong>Fokus:</strong> Mengapa terjadi?</p>
-                    <p class="desc">Menganalisis korelasi dan penyebab dari suatu kejadian. (Contoh: Menghubungkan cuaca panas dengan tingginya penjualan es krim).</p>
+                    <p class="desc">Menganalisis korelasi dan penyebab suatu kejadian. (Contoh: Menghubungkan cuaca
+                        dengan tingginya penjualan).</p>
                 </div>
                 <div class="edu-card predictive">
                     <h3>3. Prediktif</h3>
                     <p><strong>Fokus:</strong> Apa yang akan terjadi?</p>
-                    <p class="desc">Menggunakan machine learning atau statistik untuk meramal masa depan berdasarkan pola masa lalu. (Contoh: Prediksi cuaca besok, prediksi churn).</p>
+                    <p class="desc">Menggunakan machine learning untuk meramal masa depan. (Contoh: Prediksi cuaca
+                        besok, prediksi churn).</p>
                 </div>
                 <div class="edu-card prescriptive">
                     <h3>4. Preskriptif</h3>
                     <p><strong>Fokus:</strong> Apa yang harus dilakukan?</p>
-                    <p class="desc">Memberikan rekomendasi keputusan terbaik atau optimasi dari berbagai pilihan tindakan. (Contoh: Mesin rekomendasi rute terpendek Google Maps).</p>
+                    <p class="desc">Memberikan rekomendasi keputusan terbaik dari simulasi. (Contoh: Sistem rekomendasi
+                        Waze/GPS).</p>
                 </div>
             </div>
-            <button class="btn btn-primary btn-large mt-4" onclick="startGame()">Siap Main! 🚀</button>
+            <button class="btn btn-primary btn-large mt-4" onclick="showScreen('screen-name-input')">Lanjut Masuk Nama!
+                🚀</button>
         </div>
     </div>
 
-    <!-- SCREEN: GAME AREA -->
+    <!-- SCREEN: INPUT NAMA -->
+    <div id="screen-name-input" class="screen">
+        <div class="name-content box-shadow-premium">
+            <h2>Pendaftaran Peserta Lomba 📋</h2>
+            <p>Silakan isi nama siapa yang akan adu kecepatan menjawab.</p>
+            <div class="inputs-container">
+                <div class="player-input p1-input">
+                    <label>🔴 Pemain 1 (Kiri)</label>
+                    <input type="text" id="input-p1-name" placeholder="Nama P1" autocomplete="off" maxlength="15">
+                </div>
+                <div class="player-input p2-input">
+                    <label>🔵 Pemain 2 (Kanan)</label>
+                    <input type="text" id="input-p2-name" placeholder="Nama P2" autocomplete="off" maxlength="15">
+                </div>
+            </div>
+            <button class="btn btn-primary btn-large mt-4" onclick="initiateGame()">Mulai Pertandingan! 🏁</button>
+        </div>
+    </div>
+
+
+    <!-- SCREEN: GAME AREA MULTIPLAYER -->
     <div id="screen-game" class="screen">
-        <div class="game-container">
-            <!-- Left Side: Visual Arena -->
-            <div class="arena-side">
+
+        <!-- HEADER TENGAH SOAL -->
+        <div class="game-header box-shadow-premium">
+            <div class="quiz-header text-center">
+                <h3>Soal #<span id="question-number">1</span> <span id="level-badge" class="badge">Mudah</span></h3>
+            </div>
+            <div id="question-container" class="question-container text-center">
+                <!-- Teks pertanyaan atau gambar -->
+            </div>
+            <div id="feedback-toast" class="feedback-toast hidden text-center"></div>
+        </div>
+
+        <div class="multiplayer-arena">
+
+            <!-- AREA KIRI: PEMAIN 1 -->
+            <div class="player-panel player-1">
+                <div class="player-info p1-header">
+                    <h2 id="display-p1-name">Pemain 1</h2>
+                    <div class="score-pill">Skor: <span id="score-p1">0</span></div>
+                </div>
+
                 <div class="arena-background">
                     <div class="clouds"></div>
-                    <div class="ground"></div>
-                    
-                    <!-- Tiang -->
+                    <div class="ground p1-ground"></div>
                     <div class="pole">
-                        <!-- Hadiah (Puncak) -->
                         <div class="prizes">
-                            <div class="prize tv">📺</div>
-                            <div class="prize bike">🚲</div>
-                            <div class="prize trophy">🏆</div>
+                            <div class="prize">🏆</div>
                         </div>
-                        
-                        <!-- Karakter -->
-                        <div id="character" class="character" style="bottom: 0%;">
-                            <div class="char-body">🧑‍💻</div>
+                        <div id="character1" class="character char-p1" style="bottom: 0%;">
+                            <div class="char-body">🧑‍🚒</div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="progress-info box-shadow-premium">
-                    <div class="progress-bar">
-                        <div id="progress-fill" class="progress-fill" style="width: 0%;"></div>
-                    </div>
-                    <div class="stats">
-                        <span>Tinggi: <span id="height-text">0</span>%</span>
-                        <span>Level: <span id="level-badge" class="badge">Mudah</span></span>
-                    </div>
+
+                <div class="progress-bar mt-2">
+                    <div id="progress-fill-1" class="progress-fill p1-fill" style="width: 0%;"></div>
                 </div>
+                <div class="text-center bold mt-1"><span id="height-text-1">0</span>%</div>
+
+                <!-- Tombol Kendali Pemain 1 -->
+                <div id="options-p1" class="options-container mt-4"></div>
             </div>
 
-            <!-- Right Side: Quiz Panel -->
-            <div class="quiz-side box-shadow-premium">
-                <div class="quiz-header">
-                    <h3>Soal #<span id="question-number">1</span></h3>
+            <!-- AREA KANAN: PEMAIN 2 -->
+            <div class="player-panel player-2">
+                <div class="player-info p2-header text-right">
+                    <h2 id="display-p2-name">Pemain 2</h2>
+                    <div class="score-pill">Skor: <span id="score-p2">0</span></div>
                 </div>
-                <div id="question-container" class="question-container">
-                    <!-- Teks pertanyaan atau gambar akan disuntik dari script.js -->
+
+                <div class="arena-background">
+                    <div class="clouds"></div>
+                    <div class="ground p2-ground"></div>
+                    <div class="pole">
+                        <div class="prizes">
+                            <div class="prize">🏆</div>
+                        </div>
+                        <div id="character2" class="character char-p2" style="bottom: 0%;">
+                            <div class="char-body">👷‍♂️</div>
+                        </div>
+                    </div>
                 </div>
-                <div id="options-container" class="options-container">
-                    <!-- Tombol pilihan (A, B, C, D) akan di-generate di sini -->
+
+                <div class="progress-bar mt-2">
+                    <div id="progress-fill-2" class="progress-fill p2-fill" style="width: 0%;"></div>
                 </div>
-                <div id="feedback-toast" class="feedback-toast hidden"></div>
+                <div class="text-center bold mt-1"><span id="height-text-2">0</span>%</div>
+
+                <!-- Tombol Kendali Pemain 2 -->
+                <div id="options-p2" class="options-container mt-4"></div>
             </div>
+
         </div>
     </div>
+
 
     <!-- SCREEN: RESULT -->
     <div id="screen-result" class="screen">
-        <div class="result-content box-shadow-premium">
-            <h1 id="result-title">Selamat! 🎉</h1>
-            <div id="result-message" class="result-message">Kamu berhasil mencapai puncak!</div>
-            <div class="final-score">Skor Akhir: <span id="final-score-text">100</span>%</div>
-            <button class="btn btn-primary mt-4" onclick="showScreen('screen-home')">🏠 Main Lagi</button>
+        <div class="result-content box-shadow-premium text-center">
+            <h1 id="result-title">Permainan Selesai! 🎉</h1>
+            <div id="result-message" class="result-message mt-4"></div>
+            <div class="final-scores mt-4">
+                <div class="p1-score-box">
+                    <h3 id="result-p1-name">Pemain 1</h3>
+                    <p>Skor: <strong id="result-p1-score">0</strong></p>
+                </div>
+                <div class="p2-score-box">
+                    <h3 id="result-p2-name">Pemain 2</h3>
+                    <p>Skor: <strong id="result-p2-score">0</strong></p>
+                </div>
+            </div>
+            <button class="btn btn-primary btn-large mt-4" onclick="showScreen('screen-home')">🏠 Kembali ke
+                Beranda</button>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
+
 </html>

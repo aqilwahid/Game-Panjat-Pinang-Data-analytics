@@ -1,87 +1,70 @@
+// --- OBYEK AUDIO ---
+const bgmAudio = document.getElementById('bgm-audio');
+const correctAudio = document.getElementById('correct-audio');
+const wrongAudio = document.getElementById('wrong-audio');
+const winAudio = document.getElementById('win-audio');
+
+bgmAudio.volume = 0.3; // Volume BGM agar tidak terlalu keras
+let isBgmPlaying = false;
+
+function toggleBGM() {
+    if (isBgmPlaying) {
+        bgmAudio.pause();
+        isBgmPlaying = false;
+        document.getElementById('btn-audio-toggle').innerText = "🔇";
+    } else {
+        // Harus ada interaksi user baru browser izinkan play()
+        bgmAudio.play().catch(e => console.log("Audio autoplay dicegah browser:", e));
+        isBgmPlaying = true;
+        document.getElementById('btn-audio-toggle').innerText = "🔊";
+    }
+}
+
+// Mainkan Efek Suara
+function playSound(type) {
+    if (type === 'correct') {
+        correctAudio.currentTime = 0;
+        correctAudio.play().catch(e => { });
+    } else if (type === 'wrong') {
+        wrongAudio.currentTime = 0;
+        wrongAudio.play().catch(e => { });
+    } else if (type === 'win') {
+        winAudio.currentTime = 0;
+        winAudio.play().catch(e => { });
+    }
+}
+
+
 // --- BANK SOAL ---
 const questions = [
-    // Level 1: Mudah (Definisi)
-    {
-        level: "Mudah",
-        question: "Analitik jenis apakah yang berfokus pada pertanyaan 'Apa yang telah terjadi?' (Meringkas fakta data historis)?",
-        options: ["Analitik Prediktif", "Analitik Deskriptif", "Analitik Preskriptif", "Analitik Diagnostik"],
-        correctIndex: 1
-    },
-    {
-        level: "Mudah",
-        question: "Manakah jenis analitik yang bertugas merekomendasikan keputusan atau tindakan terbaik?",
-        options: ["Analitik Preskriptif", "Analitik Deskriptif", "Analitik Diagnostik", "Analitik Prediktif"],
-        correctIndex: 0
-    },
-    {
-        level: "Mudah",
-        question: "Analitik yang mencari 'Mengapa sesuatu terjadi?' dengan mencari hubungan kausalitas disebut...",
-        options: ["Analitik Diagnostik", "Analitik Preskriptif", "Analitik Prediktif", "Analitik Deskriptif"],
-        correctIndex: 0
-    },
-    // Level 2: Sedang (Studi Kasus Bisnis)
-    {
-        level: "Sedang",
-        question: "Pak Andi melihat dashboard penjualan tokonya dan mendapati bahwa penjualan bulan Agustus turun 15% dibanding Juli. Kegiatan yang dilakukan Pak Andi termasuk level analitik...",
-        options: ["Preskriptif", "Prediktif", "Diagnostik", "Deskriptif"],
-        correctIndex: 3
-    },
-    {
-        level: "Sedang",
-        question: "Sebuah bank menggunakan algoritma Machine Learning untuk menilai apakah seorang nasabah baru berpotensi 'Macet' dalam mencicil kredit di masa depan berdasarkan histori peminjam sebelumnya. Ini adalah contoh dari...",
-        options: ["Analitik Prediktif", "Analitik Preskriptif", "Analitik Diagnostik", "Analitik Sentimen"],
-        correctIndex: 0
-    },
-    {
-        level: "Sedang",
-        question: "Setelah mengetahui penjualan es krim selalu naik saat cuaca panas, manajer mini market mendapat rekomendasi dari sistem komputer untuk selalu menempatkan es krim di dekat kasir setiap kali BMKG meramalkan suhu di atas 30°C. Rekomendasi sistem ini adalah hasil dari...",
-        options: ["Analitik Deskriptif", "Analitik Preskriptif", "Analitik Diagnostik", "Analitik Prediktif"],
-        correctIndex: 1
-    },
-    // Level 3: Susah (Visual / Kompleks)
-    {
-        level: "Susah",
-        question: "Anda membuat Scatter Plot antara 'Tingkat Kemiskinan' (Sumbu X) dan 'Tingkat Kriminalitas' (Sumbu Y) untuk melihat apakah ada korelasinya. Analisis apa yang sedang Anda lakukan?",
-        options: ["Analitik Prediktif", "Analitik Diagnostik", "Analitik Preskriptif", "Analitik Deskriptif"],
-        correctIndex: 1
-    },
-    {
-        level: "Susah",
-        question: "Line chart yang menunjukkan tren data historis dari tahun 2020 hingga 2023, ditambah dengan 'garis putus-putus' yang meramalkan tren berlanjut hingga tahun 2025 merupakan kombinasi dari analitik...",
-        options: ["Deskriptif dan Diagnostik", "Deskriptif dan Prediktif", "Diagnostik dan Preskriptif", "Prediktif dan Preskriptif"],
-        correctIndex: 1
-    },
-    {
-        level: "Susah",
-        question: "Aplikasi GPS Waze memberitahu bahwa ada kecelakaan di rute A (Deskriptif), kecepatan rata-rata di sana 5km/jam karena macet (Diagnostik), diperkirakan Anda terlambat 40 menit jika lewat sana (Prediktif), dan akhirnya aplikasi *memberikan rute alternatif tercepat* (Rute B). Fitur rute tercepat Waze ini mewakili analitik level apa?",
-        options: ["Analitik Preskriptif", "Analitik Prediktif", "Analitik Diagnostik", "Analitik Deskriptif"],
-        correctIndex: 0
-    },
-    {
-        level: "Susah",
-        question: "Metode optimasi (seperti Linear Programming atau Simulasi Monte Carlo) untuk memaksimalkan profit dan meminimalkan biaya paling banyak digunakan dalam tahap...",
-        options: ["Analitik Preskriptif", "Analitik Diagnostik", "Analitik Deskriptif", "Analitik Prediktif"],
-        correctIndex: 0
-    }
+    { level: "Mudah", question: "Analitik jenis apakah yang berfokus pada pertanyaan 'Apa yang telah terjadi?' (Meringkas fakta)?", options: ["Prediktif", "Deskriptif", "Preskriptif", "Diagnostik"], correctIndex: 1 },
+    { level: "Mudah", question: "Manakah jenis analitik yang bertugas merekomendasikan keputusan atau tindakan terbaik?", options: ["Preskriptif", "Deskriptif", "Diagnostik", "Prediktif"], correctIndex: 0 },
+    { level: "Mudah", question: "Analitik yang mencari 'Mengapa sesuatu terjadi?' disebut...", options: ["Diagnostik", "Preskriptif", "Prediktif", "Deskriptif"], correctIndex: 0 },
+    { level: "Sedang", question: "Pak Andi melihat dashboard, bulan Agustus turun 15% dibanding Juli. Kegiatan ini termasuk analitik...", options: ["Preskriptif", "Prediktif", "Diagnostik", "Deskriptif"], correctIndex: 3 },
+    { level: "Sedang", question: "Sistem Bank menilai prospek kredit peminjam di masa depan berdasarkan histori. Ini adalah analitik...", options: ["Prediktif", "Preskriptif", "Diagnostik", "Sosial"], correctIndex: 0 },
+    { level: "Sedang", question: "Mesin merekomenasikan Manajer menempatkan es krim di depan kasir saat suhu panas. Ini analitik...", options: ["Deskriptif", "Preskriptif", "Diagnostik", "Prediktif"], correctIndex: 1 },
+    { level: "Susah", question: "Scatter Plot antara 'Tingkat Kemiskinan' & 'Kriminalitas' untuk melihat korelasi adalah...", options: ["Prediktif", "Diagnostik", "Preskriptif", "Deskriptif"], correctIndex: 1 },
+    { level: "Susah", question: "Garis putus-putus pada line-chart yang memperpanjang tren masa lalu ke masa depan mewakili analitik...", options: ["Deskriptif", "Prediktif", "Diagnostik", "Preskriptif"], correctIndex: 1 },
+    { level: "Susah", question: "Fitur rute alternatif tercepat pada aplikasi Navigator (GPS) mewakili analitik level...", options: ["Preskriptif", "Prediktif", "Diagnostik", "Deskriptif"], correctIndex: 0 },
+    { level: "Susah", question: "Metode Linier Programming untuk alokasi budget marketing maksimal profit ada di wilayah...", options: ["Preskriptif", "Diagnostik", "Deskriptif", "Prediktif"], correctIndex: 0 }
 ];
 
+
 // --- STATE MANAGEMENT ---
+let p1 = { name: "Pemain 1", score: 0, height: 0 };
+let p2 = { name: "Pemain 2", score: 0, height: 0 };
+
 let currentQuestionIndex = 0;
-let score = 0;
-let heightPercentage = 0; // 0 hingga 100
-let selectedQuestions = []; // Soal yang akan dimainkan di game ini
+let selectedQuestions = [];
+let isAnswering = false; // Flag untuk sistem "Rebutan"
+
 
 // --- CORE FUNCTIONS ---
-
-// Menampilkan Screen Tertentu
 function showScreen(screenId) {
-    document.querySelectorAll('.screen').forEach(screen => {
-        screen.classList.remove('active');
-    });
+    document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
     document.getElementById(screenId).classList.add('active');
 }
 
-// Mengacak Soal
 function shuffleArray(array) {
     let newArr = [...array];
     for (let i = newArr.length - 1; i > 0; i--) {
@@ -91,135 +74,174 @@ function shuffleArray(array) {
     return newArr;
 }
 
-// Memulai Game
-function startGame() {
-    // Reset State
-    score = 0;
-    heightPercentage = 0;
+// Inisiasi Pemain & Game
+function initiateGame() {
+    const input1 = document.getElementById('input-p1-name').value.trim();
+    const input2 = document.getElementById('input-p2-name').value.trim();
+
+    p1.name = input1 || "Pemain 1 (Merah)";
+    p2.name = input2 || "Pemain 2 (Biru)";
+
+    document.getElementById('display-p1-name').innerText = p1.name;
+    document.getElementById('display-p2-name').innerText = p2.name;
+
+    // Pastikan BGM nyala jika user mengeklik mulai
+    if (!isBgmPlaying) toggleBGM();
+
+    p1.score = 0; p1.height = 0;
+    p2.score = 0; p2.height = 0;
     currentQuestionIndex = 0;
 
-    // Siapkan 10 soal acak
     selectedQuestions = shuffleArray(questions).slice(0, 10);
 
-    updateCharacterHeight();
+    updateUI();
     showScreen('screen-game');
     loadQuestion();
 }
 
-// Memuat Pertanyaan ke UI
+
 function loadQuestion() {
     if (currentQuestionIndex >= selectedQuestions.length) {
-        // Game Selesai (Menang tapi soal habis)
-        endGame(true);
+        endGame();
         return;
     }
 
+    isAnswering = false; // Buka kunci rebutan
     const q = selectedQuestions[currentQuestionIndex];
+
     document.getElementById('question-number').innerText = currentQuestionIndex + 1;
     document.getElementById('level-badge').innerText = q.level;
 
-    // Ubah warna badge level
-    const badge = document.getElementById('badge');
-    if (q.level === "Mudah") document.getElementById('level-badge').style.background = "#4CAF50";
-    else if (q.level === "Sedang") document.getElementById('level-badge').style.background = "#FF9800";
-    else document.getElementById('level-badge').style.background = "#F44336";
+    const badge = document.getElementById('level-badge');
+    if (q.level === "Mudah") badge.style.background = "#4CAF50";
+    else if (q.level === "Sedang") badge.style.background = "#FF9800";
+    else badge.style.background = "#F44336";
 
-    // Build Question HTML
-    let qHTML = `<p>${q.question}</p>`;
-    if (q.image) {
-        qHTML += `<img src="${q.image}" class="question-image" alt="Ilustrasi Soal">`;
-    }
-    document.getElementById('question-container').innerHTML = qHTML;
+    document.getElementById('question-container').innerHTML = `<h3>${q.question}</h3>`;
 
-    // Build Options HTML
-    const optionsContainer = document.getElementById('options-container');
-    optionsContainer.innerHTML = '';
+    // Render Ulang Tombol Kedua Pemain
+    renderOptions('p1', q);
+    renderOptions('p2', q);
+}
+
+
+function renderOptions(playerKey, q) {
+    const container = document.getElementById(`options-${playerKey}`);
+    container.innerHTML = '';
 
     q.options.forEach((opt, index) => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
         btn.innerText = `${String.fromCharCode(65 + index)}. ${opt}`;
-        btn.onclick = () => checkAnswer(index, btn, q.correctIndex);
-        optionsContainer.appendChild(btn);
+
+        // Klik Jawaban
+        btn.onclick = () => handleAnswer(playerKey, index, btn, q.correctIndex);
+        container.appendChild(btn);
     });
 }
 
-// Memeriksa Jawaban
-function checkAnswer(selectedIndex, btnElement, correctIndex) {
-    // Disable all buttons briefly so user can't spam
-    const buttons = document.querySelectorAll('.option-btn');
-    buttons.forEach(b => b.disabled = true);
+
+function handleAnswer(playerKey, selectedIndex, btnElement, correctIndex) {
+    if (isAnswering) return; // Jika sisi lain sudah menekan duluan
+    isAnswering = true; // Kunci sistem
+
+    // Disable semua tombol di layar
+    document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
 
     const isCorrect = (selectedIndex === correctIndex);
+    const player = playerKey === 'p1' ? p1 : p2;
+    const opponent = playerKey === 'p1' ? p2 : p1;
+
+    const charElemId = playerKey === 'p1' ? 'character1' : 'character2';
 
     if (isCorrect) {
+        playSound('correct');
         btnElement.classList.add('correct');
-        showToast('Benar! Terus Memanjat! 🚀', 'correct');
-        heightPercentage += 10; // Naik 10%
-        score += 10;
+        showToast(`${player.name} Benar! 🚀`, 'correct');
 
+        player.height += 15; // Naik lebih cepat saat rebutan
+        player.score += 20;
     } else {
+        playSound('wrong');
         btnElement.classList.add('wrong');
-        // Tunjukkan yang benar
-        buttons[correctIndex].classList.add('correct');
+        showToast(`${player.name} Salah! 📉`, 'wrong');
 
-        showToast('Salah! Merosot turun! 📉', 'wrong');
+        document.getElementById(charElemId).classList.add('shake');
+        setTimeout(() => document.getElementById(charElemId).classList.remove('shake'), 400);
 
-        // Shake animasi
-        document.getElementById('character').classList.add('shake');
-        setTimeout(() => document.getElementById('character').classList.remove('shake'), 400);
-
-        // Merosot 5% (tetapi tidak kurang dari 0)
-        heightPercentage -= 5;
-        if (heightPercentage < 0) heightPercentage = 0;
+        player.height -= 10;
+        if (player.height < 0) player.height = 0;
     }
 
-    updateCharacterHeight();
+    updateUI();
 
-    // Lanjut ke soal berikutnya atau cek kemenangan
+    // Tunggu sesaat sebelum pindah soal (agar efek & toast terlihat)
     setTimeout(() => {
-        if (heightPercentage >= 100) {
-            endGame(true); // Puncak tercapai
+        if (p1.height >= 100 || p2.height >= 100) {
+            endGame(); // Ada yang sampai puncak duluan
         } else {
             currentQuestionIndex++;
             loadQuestion();
         }
-    }, 1500); // Jeda sebelum soal berganti
+    }, 1800);
 }
 
-// Update UI Tinggi Karakter
-function updateCharacterHeight() {
-    // Pastikan tidak lebih dari 100%
-    if (heightPercentage > 100) heightPercentage = 100;
 
-    // Update posisi visual karakter di layar
-    document.getElementById('character').style.bottom = `calc(${heightPercentage}% - 20px)`;
+function updateUI() {
+    // Batasi maksimum 100%
+    if (p1.height > 100) p1.height = 100;
+    if (p2.height > 100) p2.height = 100;
 
-    // Update progress bar
-    document.getElementById('progress-fill').style.width = `${heightPercentage}%`;
-    document.getElementById('height-text').innerText = heightPercentage;
+    // Pemain 1
+    document.getElementById('character1').style.bottom = `calc(${p1.height}% - 20px)`;
+    document.getElementById('progress-fill-1').style.width = `${p1.height}%`;
+    document.getElementById('height-text-1').innerText = p1.height;
+    document.getElementById('score-p1').innerText = p1.score;
+
+    // Pemain 2
+    document.getElementById('character2').style.bottom = `calc(${p2.height}% - 20px)`;
+    document.getElementById('progress-fill-2').style.width = `${p2.height}%`;
+    document.getElementById('height-text-2').innerText = p2.height;
+    document.getElementById('score-p2').innerText = p2.score;
 }
 
-// Menampilkan Toast Feedback Sementara
 function showToast(message, type) {
     const toast = document.getElementById('feedback-toast');
     toast.innerText = message;
     toast.className = `feedback-toast ${type}`;
 
     setTimeout(() => {
-        toast.className = 'feedback-toast hidden';
-    }, 1400);
+        toast.className = 'feedback-toast hidden text-center';
+    }, 1500);
 }
 
-// Akhiri Game
-function endGame(isWin) {
+// Skenario Akhir Permainan
+function endGame() {
+    playSound('win');
     showScreen('screen-result');
-    document.getElementById('final-score-text').innerText = score;
+
+    // Fill Scores
+    document.getElementById('result-p1-name').innerText = p1.name;
+    document.getElementById('result-p1-score').innerText = p1.score;
+
+    document.getElementById('result-p2-name').innerText = p2.name;
+    document.getElementById('result-p2-score').innerText = p2.score;
+
     const msg = document.getElementById('result-message');
 
-    if (isWin && heightPercentage >= 100) {
-        msg.innerHTML = "Luar Biasa! Kamu berhasil mencapai puncak!<br><br>🎁 Kamu mendapatkan semua hadiah di atas! Pengetahuan Analitik Datamu sudah solid.";
+    // Cek siapa Pemenang
+    let winnerText = "";
+    if (p1.height >= 100 && p2.height < 100) {
+        winnerText = `🏆 <strong>${p1.name}</strong> berhasil menyentuh PUNCAK PINANG lebih dulu!`;
+    } else if (p2.height >= 100 && p1.height < 100) {
+        winnerText = `🏆 <strong>${p2.name}</strong> berhasil menyentuh PUNCAK PINANG lebih dulu!`;
+    } else if (p1.score > p2.score) {
+        winnerText = `Permainan selesai! Skor tertinggi diraih oleh <strong>${p1.name}</strong>.`;
+    } else if (p2.score > p1.score) {
+        winnerText = `Permainan selesai! Skor tertinggi diraih oleh <strong>${p2.name}</strong>.`;
     } else {
-        msg.innerHTML = "Waktu permainan habis, namun kamu berjuang dengan baik!<br>Ayo pelajari lagi dan coba kembali.";
+        winnerText = `Luar Biasa, Pertandingan berakhir <strong>SERI!</strong>`;
     }
+
+    msg.innerHTML = winnerText;
 }
