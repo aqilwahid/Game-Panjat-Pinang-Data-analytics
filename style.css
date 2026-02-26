@@ -233,6 +233,18 @@ body {
     border-color: #3498db;
 }
 
+.loading-spinner {
+    font-size: 3.5rem;
+    animation: spin 2s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 /* --- GAME SCREEN MULTIPLAYER --- */
 #screen-game {
     flex-direction: column;
@@ -332,11 +344,11 @@ body {
     bottom: 10%;
     left: 50%;
     transform: translateX(-50%);
-    width: 30px;
+    width: 200px;
     height: 85%;
-    background: linear-gradient(to right, #d2a679, #8c5625, #d2a679);
-    border-radius: 15px 15px 0 0;
-    box-shadow: 3px 0 8px rgba(0, 0, 0, 0.3);
+    background: url('https://png.pngtree.com/png-vector/20220804/ourmid/pngtree-panjat-pinang-lomba-17-agustus-dirgahayu-republik-indonesia-png-vektor-png-image_6099107.png') no-repeat center bottom;
+    background-size: contain;
+    border-radius: 0;
 }
 
 .prizes {

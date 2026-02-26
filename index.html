@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panjat Pinang Data Analytics - Multiplayer</title>
+    <title>Panjat Pinang Data Analytics - Online Matchmaking</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
@@ -25,18 +25,17 @@
         <source src="https://actions.google.com/sounds/v1/crowds/crowd_cheer_with_whistles.ogg" type="audio/ogg">
     </audio>
 
-
     <!-- SCREEN: SPLASH HOME -->
     <div id="screen-home" class="screen active">
         <div class="home-content box-shadow-premium">
             <button id="btn-audio-toggle" class="btn btn-circular" onclick="toggleBGM()"
                 title="Nyalakan/Matikan Musik">🔊</button>
-            <h1>🎋 Panjat Pinang <br><span class="highlight">Data Analytics</span><br><small>Versi Multiplayer Lokal
-                    👯‍♂️</small></h1>
-            <p>Adu tangkas dan pemahaman tentang 4 Level Analitik Data (Deskriptif, Diagnostik, Prediktif, Preskriptif)
-                bersama temanmu secara live di 1 layar!</p>
+            <h1>🎋 Panjat Pinang <br><span class="highlight">Data Analytics</span><br><small>Versi Real-time Online
+                    🚀</small></h1>
+            <p>Jawab soal secepatnya. Jika benar kamu akan terus memanjat, jika salah kamu akan merosot! Uji kecepatan
+                dan pemahamanmu versus pemain lain!</p>
             <div class="home-buttons">
-                <button class="btn btn-secondary" onclick="showScreen('screen-edu')">📚 Belajar Dulu</button>
+                <button class="btn btn-secondary" onclick="showScreen('screen-edu')">📚 Belajar Analitik</button>
                 <button class="btn btn-primary" onclick="showScreen('screen-name-input')">🎮 Main Sekarang</button>
             </div>
             <div class="creator">Dibuat untuk Kelas Big Data Analysis</div>
@@ -78,25 +77,29 @@
         </div>
     </div>
 
-    <!-- SCREEN: INPUT NAMA -->
+    <!-- SCREEN: INPUT NAMA MATCHMAKING -->
     <div id="screen-name-input" class="screen">
         <div class="name-content box-shadow-premium">
             <h2>Pendaftaran Peserta Lomba 📋</h2>
-            <p>Silakan isi nama siapa yang akan adu kecepatan menjawab.</p>
+            <p>Silakan isi nama kamu dan kami akan mencarikan lawan secara otomatis.</p>
             <div class="inputs-container">
-                <div class="player-input p1-input">
-                    <label>🔴 Pemain 1 (Kiri)</label>
-                    <input type="text" id="input-p1-name" placeholder="Nama P1" autocomplete="off" maxlength="15">
-                </div>
-                <div class="player-input p2-input">
-                    <label>🔵 Pemain 2 (Kanan)</label>
-                    <input type="text" id="input-p2-name" placeholder="Nama P2" autocomplete="off" maxlength="15">
+                <div class="player-input">
+                    <label>Nama Kamu:</label>
+                    <input type="text" id="input-my-name" placeholder="Misal: Budi" autocomplete="off" maxlength="15">
                 </div>
             </div>
-            <button class="btn btn-primary btn-large mt-4" onclick="initiateGame()">Mulai Pertandingan! 🏁</button>
+            <button class="btn btn-primary btn-large mt-4" onclick="startMatchmaking()">Cari Lawan 🔍</button>
         </div>
     </div>
 
+    <!-- SCREEN: MENUNGGU MATCHING -->
+    <div id="screen-waiting" class="screen">
+        <div class="name-content box-shadow-premium">
+            <h2>Mencari Lawan... ⏳</h2>
+            <p>Tunggu sebentar ya, mencari penantang sepadan di kelas ini.</p>
+            <div class="loading-spinner mt-4">⚙️</div>
+        </div>
+    </div>
 
     <!-- SCREEN: GAME AREA MULTIPLAYER -->
     <div id="screen-game" class="screen">
@@ -104,15 +107,17 @@
         <!-- HEADER TENGAH SOAL -->
         <div class="game-header box-shadow-premium">
             <div class="quiz-header text-center">
-                <h3>Soal #<span id="question-number">1</span> <span id="level-badge" class="badge">Mudah</span></h3>
+                <h3>Soal #<span id="question-number">-</span> <span id="level-badge" class="badge">Bersiap...</span>
+                </h3>
             </div>
             <div id="question-container" class="question-container text-center">
                 <!-- Teks pertanyaan atau gambar -->
+                <h3>Menunggu Soal dari Wasit...</h3>
             </div>
             <div id="feedback-toast" class="feedback-toast hidden text-center"></div>
         </div>
 
-        <div class="multiplayer-arena">
+        <div class="multiplayer-arena" id="multiplayer-arena" style="opacity: 0.5; pointer-events: none;">
 
             <!-- AREA KIRI: PEMAIN 1 -->
             <div class="player-panel player-1">
@@ -140,7 +145,12 @@
                 <div class="text-center bold mt-1"><span id="height-text-1">0</span>%</div>
 
                 <!-- Tombol Kendali Pemain 1 -->
-                <div id="options-p1" class="options-container mt-4"></div>
+                <div id="options-p1" class="options-container mt-4">
+                    <button class="option-btn" disabled>A</button>
+                    <button class="option-btn" disabled>B</button>
+                    <button class="option-btn" disabled>C</button>
+                    <button class="option-btn" disabled>D</button>
+                </div>
             </div>
 
             <!-- AREA KANAN: PEMAIN 2 -->
@@ -169,7 +179,12 @@
                 <div class="text-center bold mt-1"><span id="height-text-2">0</span>%</div>
 
                 <!-- Tombol Kendali Pemain 2 -->
-                <div id="options-p2" class="options-container mt-4"></div>
+                <div id="options-p2" class="options-container mt-4">
+                    <button class="option-btn" disabled>A</button>
+                    <button class="option-btn" disabled>B</button>
+                    <button class="option-btn" disabled>C</button>
+                    <button class="option-btn" disabled>D</button>
+                </div>
             </div>
 
         </div>
@@ -191,11 +206,12 @@
                     <p>Skor: <strong id="result-p2-score">0</strong></p>
                 </div>
             </div>
-            <button class="btn btn-primary btn-large mt-4" onclick="showScreen('screen-home')">🏠 Kembali ke
-                Beranda</button>
+            <button class="btn btn-primary btn-large mt-4" onclick="window.location.reload()">🏠 Main Lagi</button>
         </div>
     </div>
 
+    <!-- SOCKET.IO CLIENT -->
+    <script src="/socket.io/socket.io.js"></script>
     <script src="script.js"></script>
 </body>
 
