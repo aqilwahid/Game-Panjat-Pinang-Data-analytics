@@ -14,6 +14,16 @@ const bankSoal = [
     { level: "Mudah", question: "Analitik yang hanya fokus merangkum data historis untuk menjawab 'Apa yang telah terjadi?' disebut...", options: ["Analitik Prediktif", "Analitik Deskriptif", "Analitik Preskriptif", "Analitik Diagnostik"], correctIndex: 1 },
     { level: "Mudah", question: "Manakah analitik yang bertugas mencari korelasi untuk menjawab penyebab atau 'Mengapa sesuatu terjadi'?", options: ["Analitik Preskriptif", "Analitik Deskriptif", "Analitik Diagnostik", "Analitik Prediktif"], correctIndex: 2 },
     { level: "Mudah", question: "Analitik yang menggunakan Machine Learning meramalkan tren di masa depan disebut...", options: ["Analitik Diagnostik", "Analitik Preskriptif", "Analitik Prediktif", "Analitik Deskriptif"], correctIndex: 2 },
+    { level: "Mudah", question: "Laporan bulanan yang direktur baca berisi jumlah pengeluaran dan pemasukan bulan lalu adalah contoh analitik...", options: ["Diagnostik", "Prediktif", "Preskriptif", "Deskriptif"], correctIndex: 3 },
+    { level: "Mudah", question: "Analisa data untuk mengetahui alasan 'Kenapa tagihan air bulan ini membengkak drastis?' termasuk jenis analitik...", options: ["Diagnostik", "Preskriptif", "Deskriptif", "Prediktif"], correctIndex: 0 },
+    { level: "Mudah", question: "Fitur Spotify Wrapped yang merangkum miliaran data riwayat lagu yang kamu dengar setahun terakhir adalah analitik...", options: ["Preskriptif", "Deskriptif", "Prediktif", "Diagnostik"], correctIndex: 1 },
+    { level: "Mudah", question: "Sebuah minimarket memanfaatkan pola pembelian masa lalu untuk meramal stok mana yang cepat habis minggu depan, ini adalah analitik...", options: ["Deskriptif", "Prediktif", "Preskriptif", "Diagnostik"], correctIndex: 1 },
+    { level: "Mudah", question: "Program komputer yang tidak hanya memprediksi, tapi juga otomatis mengambil tindakan beli saham untuk mendapat profit tertinggi adalah analitik...", options: ["Diagnostik", "Prediktif", "Preskriptif", "Deskriptif"], correctIndex: 2 },
+    { level: "Mudah", question: "Melihat rata-rata nilai ujian siswa di kelas merupakan penerapan paling dasar dari analitik...", options: ["Deskriptif", "Preskriptif", "Diagnostik", "Prediktif"], correctIndex: 0 },
+    { level: "Mudah", question: "Ketika perawat mencari tahu hubungan antara 'Suhu AC ruangan' dengan 'Lama pasien pilek sembuh', perawat itu sedang melakukan analitik...", options: ["Analitik Deskriptif", "Analitik Diagnostik", "Analitik Preskriptif", "Analitik Prediktif"], correctIndex: 1 },
+    { level: "Mudah", question: "TikTok menyarankan video yang mungkin kamu sukai besok dengan Machine learning. Saran ini diproses melalui analitik...", options: ["Diagnostik", "Deskriptif", "Preskriptif", "Prediktif"], correctIndex: 3 },
+    { level: "Mudah", question: "Analitik terakhir dan paling canggih yang menjawab 'Tindakan apa yang harus bisnis ini lakukan?' adalah...", options: ["Preskriptif", "Diagnostik", "Prediktif", "Deskriptif"], correctIndex: 0 },
+    { level: "Mudah", question: "Merekap absensi karyawan ke dalam bentuk grafik Pie Chart adalah bentuk sederhana dari analitik...", options: ["Preskriptif", "Deskriptif", "Prediktif", "Diagnostik"], correctIndex: 1 },
     { level: "Sedang", question: "Pak Wahid mendapati penjualan produk sabun bulan lalu turun 20%. Mengetahui angka fakta ini adalah kegiatan dari...", options: ["Analitik Preskriptif", "Analitik Prediktif", "Analitik Diagnostik", "Analitik Deskriptif"], correctIndex: 3 },
     { level: "Sedang", question: "Dashboard BI menampilkan grafik batang (Bar Chart) total transaksi kemarin sebanyak 500 transaksi. Ini merupakan visualisasi dari...", options: ["Analitik Deskriptif", "Analitik Preskriptif", "Analitik Diagnostik", "Analitik Prediksi"], correctIndex: 0 },
     { level: "Sedang", question: "Aplikasi Waze memperkirakan Anda akan tiba di kantor pada pukul 08:15 melihat cuaca dan kecepatan saat ini. Fitur estimasi kedatangan (ETA) ini adalah penerapan dari...", options: ["Analitik Deskriptif", "Analitik Preskriptif", "Analitik Diagnostik", "Analitik Prediktif"], correctIndex: 3 },
@@ -121,8 +131,7 @@ io.on('connection', (socket) => {
             playerRef.height += 15;
             playerRef.score += 20;
         } else {
-            playerRef.height -= 10;
-            if (playerRef.height < 0) playerRef.height = 0;
+            // Revisi: Tidak ada pengurangan skor/posisi jika jawabannya salah
         }
 
         if (playerRef.height > 100) playerRef.height = 100;
